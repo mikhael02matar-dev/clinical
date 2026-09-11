@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import EditPatientForm from "@/components/EditPatientForm";
+import DeletePatientButton from "@/components/DeletePatientButton";
 
 export default async function EditPatientPage({ params }) {
   const supabase = createClient();
@@ -19,6 +20,7 @@ export default async function EditPatientPage({ params }) {
         <h1>Edit — {patient.name}</h1>
       </div>
       <EditPatientForm patient={patient} />
+      <DeletePatientButton patientId={patient.id} patientName={patient.name} />
     </>
   );
 }

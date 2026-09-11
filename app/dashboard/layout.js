@@ -1,8 +1,6 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import SignOutButton from "@/components/SignOutButton";
-import SidebarNav from "@/components/SidebarNav";
+import Sidebar from "@/components/Sidebar";
 
 const NAV_LINKS = [
   { href: "/dashboard", label: "Dashboard", icon: "dashboard" },
@@ -28,26 +26,12 @@ export default async function DashboardLayout({ children }) {
 
   return (
     <div className="app-shell">
-      <aside className="sidebar">
-        <div>
-          <Link href="/dashboard" className="sidebar-brand">
-            Axis Motion
-            <span className="sidebar-brand-sub">CLINICAL MVP</span>
-          </Link>
-          <SidebarNav links={NAV_LINKS} />
-        </div>
-
-        <div className="sidebar-foot">
-          <Link href="/dashboard/patients/new" className="btn sidebar-add-btn">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.4">
-              <path d="M12 5v14M5 12h14" />
-            </svg>
-            Add New Patient
-          </Link>
-          <div className="sidebar-user">{profile?.name || user.email}</div>
-          <SignOutButton />
-        </div>
-      </aside>
+      <Sidebar
+        navLinks={NAV_LINKS}
+        addPatientHref="/dashboard/patients/new"
+        userLabel={profile?.name || user.email}
+        accountHref="/dashboard/account"
+      />
 
       <div className="content-area">
         <header className="topsearch">

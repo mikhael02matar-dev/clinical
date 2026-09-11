@@ -1,7 +1,6 @@
-import Link from "next/link";
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import SignOutButton from "@/components/SignOutButton";
+import Sidebar from "@/components/Sidebar";
 
 export default async function PatientLayout({ children }) {
   const supabase = createClient();
@@ -21,19 +20,7 @@ export default async function PatientLayout({ children }) {
 
   return (
     <div className="app-shell">
-      <aside className="sidebar">
-        <div>
-          <Link href="/patient" className="sidebar-brand">
-            Axis Motion
-            <span className="sidebar-brand-sub">CLINICAL MVP</span>
-          </Link>
-        </div>
-
-        <div className="sidebar-foot">
-          <div className="sidebar-user">{profile?.name || user.email}</div>
-          <SignOutButton />
-        </div>
-      </aside>
+      <Sidebar navLinks={[]} userLabel={profile?.name || user.email} accountHref="/patient/account" />
 
       <div className="content-area">
         <main className="main">{children}</main>
