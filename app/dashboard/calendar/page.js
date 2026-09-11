@@ -1,5 +1,5 @@
-import Link from "next/link";
 import { createClient } from "@/lib/supabase/server";
+import CalendarView from "@/components/CalendarView";
 
 export default async function CalendarPage() {
   const supabase = createClient();
@@ -16,38 +16,14 @@ export default async function CalendarPage() {
 
   return (
     <>
-      <div className="section-head">
-        <h1>Your calendar</h1>
+      <div className="page-head">
+        <div>
+          <h1>Your calendar</h1>
+          <p className="lede">Upcoming sessions across all your patients.</p>
+        </div>
       </div>
 
-      {sessions && sessions.length > 0 ? (
-        <table className="sessions">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Time</th>
-              <th>Patient</th>
-              <th>Notes</th>
-            </tr>
-          </thead>
-          <tbody>
-            {sessions.map((s) => (
-              <tr key={s.id}>
-                <td>{s.session_date}</td>
-                <td>{s.session_time}</td>
-                <td>
-                  <Link href={`/dashboard/patients/${s.patient_id}`}>
-                    {s.patients?.name}
-                  </Link>
-                </td>
-                <td>{s.notes || "—"}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      ) : (
-        <div className="empty">No sessions booked yet. Book one from a patient's page.</div>
-      )}
+      <CalendarView sessions={sessions || []} />
     </>
   );
 }

@@ -86,43 +86,45 @@ export default async function DashboardPage() {
       </div>
 
       {recent.length > 0 ? (
-        <table className="activity">
-          <thead>
-            <tr>
-              <th>Patient Name</th>
-              <th>Rehab Phase</th>
-              <th>Status</th>
-              <th>Last Updated</th>
-            </tr>
-          </thead>
-          <tbody>
-            {recent.map((p) => (
-              <tr key={p.id}>
-                <td>
-                  <Link href={`/dashboard/patients/${p.id}`} className="patient-name-cell">
-                    <span className="avatar">{initials(p.name)}</span>
-                    {p.name}
-                  </Link>
-                </td>
-                <td>
-                  <span className="badge phase">{phaseShortLabel(p.current_phase)}</span>
-                </td>
-                <td>
-                  <span className={`badge status-${p.status}`}>
-                    {p.status === "active" ? "Active" : "Discharged"}
-                  </span>
-                </td>
-                <td>
-                  {new Date(p.created_at).toLocaleDateString(undefined, {
-                    month: "short",
-                    day: "numeric",
-                    year: "numeric",
-                  })}
-                </td>
+        <div className="table-wrap">
+          <table className="activity nice">
+            <thead>
+              <tr>
+                <th>Patient Name</th>
+                <th>Rehab Phase</th>
+                <th>Status</th>
+                <th>Last Updated</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {recent.map((p) => (
+                <tr key={p.id}>
+                  <td>
+                    <Link href={`/dashboard/patients/${p.id}`} className="patient-name-cell">
+                      <span className="avatar">{initials(p.name)}</span>
+                      {p.name}
+                    </Link>
+                  </td>
+                  <td>
+                    <span className="badge phase">{phaseShortLabel(p.current_phase)}</span>
+                  </td>
+                  <td>
+                    <span className={`badge status-${p.status}`}>
+                      {p.status === "active" ? "Active" : "Discharged"}
+                    </span>
+                  </td>
+                  <td>
+                    {new Date(p.created_at).toLocaleDateString(undefined, {
+                      month: "short",
+                      day: "numeric",
+                      year: "numeric",
+                    })}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       ) : (
         <div className="empty">No patients yet. Add your first one to get started.</div>
       )}

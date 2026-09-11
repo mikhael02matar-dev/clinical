@@ -15,7 +15,7 @@ export default async function PatientPortalPage() {
   // RLS restricts both queries to rows where patient_id = this patient's own id.
   const { data: sessions } = await supabase
     .from("sessions")
-    .select("id, session_date, session_time, notes")
+    .select("id, session_date, session_time")
     .eq("patient_id", user.id)
     .order("session_date", { ascending: true });
 
@@ -38,12 +38,11 @@ export default async function PatientPortalPage() {
 
       <h1>Your sessions</h1>
       {sessions && sessions.length > 0 ? (
-        <table className="sessions" style={{ marginBottom: 32 }}>
+        <table className="sessions nice" style={{ marginBottom: 32 }}>
           <thead>
             <tr>
               <th>Date</th>
               <th>Time</th>
-              <th>Notes</th>
             </tr>
           </thead>
           <tbody>
@@ -51,7 +50,6 @@ export default async function PatientPortalPage() {
               <tr key={s.id}>
                 <td>{s.session_date}</td>
                 <td>{s.session_time}</td>
-                <td>{s.notes || "—"}</td>
               </tr>
             ))}
           </tbody>

@@ -781,3 +781,161 @@ table.activity tr:last-child td { border-bottom: none; }
   color: #fff;
   border-color: var(--blue);
 }
+
+/* ---------- Bordered "alive" tables ---------- */
+
+.table-wrap {
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+table.sessions.nice, table.activity.nice {
+  border: none;
+}
+
+table.sessions.nice th, table.activity.nice th {
+  background: var(--blue-tint);
+  color: var(--blue-deep);
+  border-bottom: 1px solid var(--line);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  font-size: 0.72rem;
+  font-weight: 700;
+}
+
+table.sessions.nice td, table.activity.nice td {
+  border-bottom: 1px solid var(--line);
+  border-right: 1px solid var(--line);
+}
+
+table.sessions.nice th:last-child, table.activity.nice th:last-child,
+table.sessions.nice td:last-child, table.activity.nice td:last-child {
+  border-right: none;
+}
+
+table.sessions.nice tr:last-child td, table.activity.nice tr:last-child td {
+  border-bottom: none;
+}
+
+table.sessions.nice tbody tr, table.activity.nice tbody tr {
+  transition: background 0.15s ease, transform 0.15s ease;
+}
+
+table.sessions.nice tbody tr:nth-child(even),
+table.activity.nice tbody tr:nth-child(even) {
+  background: #fafbff;
+}
+
+table.sessions.nice tbody tr:hover,
+table.activity.nice tbody tr:hover {
+  background: var(--blue-tint);
+}
+
+/* ---------- Calendar page ---------- */
+
+.cal-layout {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+
+.mini-cal-card {
+  width: 300px;
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+}
+
+.mini-cal-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.mini-cal-title {
+  font-family: var(--font-display);
+  font-weight: 600;
+  color: var(--blue-deep);
+  font-size: 1rem;
+}
+
+.mini-cal-nav {
+  background: var(--blue-tint);
+  border: none;
+  color: var(--blue-deep);
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+}
+
+.mini-cal-nav:hover { background: var(--sky); }
+
+.mini-cal-grid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 4px;
+}
+
+.mini-cal-weekdays {
+  margin-bottom: 4px;
+}
+
+.mini-cal-weekday {
+  text-align: center;
+  font-size: 0.7rem;
+  color: var(--slate-soft);
+  font-weight: 600;
+  padding: 4px 0;
+}
+
+.mini-cal-cell {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  border: none;
+  background: transparent;
+  border-radius: 10px;
+  font-size: 0.82rem;
+  color: var(--ink);
+  cursor: default;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.15s ease;
+}
+
+.mini-cal-cell.empty { visibility: hidden; }
+
+.mini-cal-cell.has-sessions {
+  cursor: pointer;
+  font-weight: 600;
+}
+
+.mini-cal-cell.has-sessions:hover { background: var(--blue-tint); }
+
+.mini-cal-cell.is-today {
+  box-shadow: inset 0 0 0 1.5px var(--blue);
+}
+
+.mini-cal-cell.is-selected {
+  background: var(--blue);
+  color: #fff;
+}
+
+.mini-cal-dot {
+  position: absolute;
+  bottom: 5px;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: var(--accent-deep);
+}
+
+.mini-cal-cell.is-selected .mini-cal-dot { background: #fff; }
+
+.booking-form textarea { border-radius: 12px; }

@@ -95,6 +95,9 @@ export default async function PatientDetailPage({ params }) {
           <Link href={`/dashboard/patients/${patient.id}/edit`} className="btn outline">
             Edit
           </Link>
+          <Link href={`/dashboard/patients/${patient.id}/sessions/book`} className="btn outline">
+            Book Next Session
+          </Link>
           <Link
             href={`/dashboard/patients/${patient.id}/sessions/new`}
             className="btn solid-link"
