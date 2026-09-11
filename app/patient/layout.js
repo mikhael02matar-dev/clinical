@@ -20,20 +20,24 @@ export default async function PatientLayout({ children }) {
   if (profile?.role === "physio") redirect("/dashboard");
 
   return (
-    <div className="shell">
-      <header className="topbar">
+    <div className="app-shell">
+      <aside className="sidebar">
         <div>
-          <Link href="/patient" className="brand">
-            Axis<span>Motion</span>
+          <Link href="/patient" className="sidebar-brand">
+            Axis Motion
+            <span className="sidebar-brand-sub">CLINICAL MVP</span>
           </Link>
-          <div className="brand-sub" style={{ marginTop: 0 }}>CLINICAL MVP</div>
         </div>
-        <nav className="nav-links">
-          <span className="role-tag">{profile?.name || user.email}</span>
+
+        <div className="sidebar-foot">
+          <div className="sidebar-user">{profile?.name || user.email}</div>
           <SignOutButton />
-        </nav>
-      </header>
-      <main className="main">{children}</main>
+        </div>
+      </aside>
+
+      <div className="content-area">
+        <main className="main">{children}</main>
+      </div>
     </div>
   );
 }

@@ -32,7 +32,7 @@ export default async function PatientsListPage() {
         patients.map((p) => (
           <Link key={p.id} href={`/dashboard/patients/${p.id}`} className="patient-row-card">
             <div>
-              <div style={{ fontWeight: 600, color: "var(--teal-deep)" }}>{p.name}</div>
+              <div style={{ fontWeight: 600, color: "var(--blue-deep)" }}>{p.name}</div>
               <div style={{ fontSize: "0.82rem", color: "var(--slate-soft)" }}>{p.email}</div>
             </div>
             <div className="badges">

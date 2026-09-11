@@ -45,11 +45,13 @@ create index if not exists clinical_files_patient_id_idx on clinical_files (pati
 
 alter table clinical_files enable row level security;
 
+drop policy if exists "clinical_files: physio manages own" on clinical_files;
 create policy "clinical_files: physio manages own"
   on clinical_files for all
   using (auth.uid() = physio_id)
   with check (auth.uid() = physio_id);
 
+drop policy if exists "clinical_files: patient reads own" on clinical_files;
 create policy "clinical_files: patient reads own"
   on clinical_files for select
   using (auth.uid() = patient_id);
@@ -68,6 +70,7 @@ on conflict (id) do nothing;
 -- policies check that the folder name matches either the patient
 -- themselves, or the physio who owns that patient.
 
+drop policy if exists "clinical-files storage: physio manages own patient folder" on storage.objects;
 create policy "clinical-files storage: physio manages own patient folder"
   on storage.objects for all
   using (
@@ -87,6 +90,7 @@ create policy "clinical-files storage: physio manages own patient folder"
     )
   );
 
+drop policy if exists "clinical-files storage: patient reads own folder" on storage.objects;
 create policy "clinical-files storage: patient reads own folder"
   on storage.objects for select
   using (

@@ -41,7 +41,7 @@ export default function MedicalInfoEditor({ patientId, pathologies, patientHisto
         {!editing && (
           <button
             onClick={() => setEditing(true)}
-            style={{ background: "none", border: "none", color: "var(--teal)", cursor: "pointer", fontSize: "0.88rem" }}
+            style={{ background: "none", border: "none", color: "var(--blue)", cursor: "pointer", fontSize: "0.88rem" }}
           >
             Edit
           </button>

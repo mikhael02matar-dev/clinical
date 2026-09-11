@@ -208,7 +208,13 @@ export default async function PatientDetailPage({ params }) {
 
         <div className="stack">
           <div className="card">
-            <h2>Personal Information</h2>
+            <h2>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                <circle cx="12" cy="8" r="3.6" />
+                <path d="M4.5 20c0-4.1 3.3-7 7.5-7s7.5 2.9 7.5 7" />
+              </svg>
+              Personal Information
+            </h2>
             <ul className="info-list">
               <li><span className="k">Phone</span><span className="v">{patient.phone || "—"}</span></li>
               <li><span className="k">Email</span><span className="v">{patient.email || "—"}</span></li>

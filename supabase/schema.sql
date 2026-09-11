@@ -104,49 +104,60 @@ alter table sessions enable row level security;
 alter table exercises enable row level security;
 alter table clinical_files enable row level security;
 
+drop policy if exists "profiles: read own" on profiles;
 create policy "profiles: read own"
   on profiles for select
   using (auth.uid() = id);
 
+drop policy if exists "patients: physio reads own" on patients;
 create policy "patients: physio reads own"
   on patients for select
   using (auth.uid() = physio_id);
 
+drop policy if exists "patients: physio reads own record" on patients;
 create policy "patients: physio reads own record"
   on patients for select
   using (auth.uid() = id);
 
+drop policy if exists "patients: physio inserts own" on patients;
 create policy "patients: physio inserts own"
   on patients for insert
   with check (auth.uid() = physio_id);
 
+drop policy if exists "patients: physio updates own" on patients;
 create policy "patients: physio updates own"
   on patients for update
   using (auth.uid() = physio_id);
 
+drop policy if exists "sessions: physio manages own" on sessions;
 create policy "sessions: physio manages own"
   on sessions for all
   using (auth.uid() = physio_id)
   with check (auth.uid() = physio_id);
 
+drop policy if exists "sessions: patient reads own" on sessions;
 create policy "sessions: patient reads own"
   on sessions for select
   using (auth.uid() = patient_id);
 
+drop policy if exists "exercises: physio manages own" on exercises;
 create policy "exercises: physio manages own"
   on exercises for all
   using (auth.uid() = physio_id)
   with check (auth.uid() = physio_id);
 
+drop policy if exists "exercises: patient reads own" on exercises;
 create policy "exercises: patient reads own"
   on exercises for select
   using (auth.uid() = patient_id);
 
+drop policy if exists "clinical_files: physio manages own" on clinical_files;
 create policy "clinical_files: physio manages own"
   on clinical_files for all
   using (auth.uid() = physio_id)
   with check (auth.uid() = physio_id);
 
+drop policy if exists "clinical_files: patient reads own" on clinical_files;
 create policy "clinical_files: patient reads own"
   on clinical_files for select
   using (auth.uid() = patient_id);
@@ -159,6 +170,7 @@ insert into storage.buckets (id, name, public)
 values ('clinical-files', 'clinical-files', false)
 on conflict (id) do nothing;
 
+drop policy if exists "clinical-files storage: physio manages own patient folder" on storage.objects;
 create policy "clinical-files storage: physio manages own patient folder"
   on storage.objects for all
   using (
@@ -178,6 +190,7 @@ create policy "clinical-files storage: physio manages own patient folder"
     )
   );
 
+drop policy if exists "clinical-files storage: patient reads own folder" on storage.objects;
 create policy "clinical-files storage: patient reads own folder"
   on storage.objects for select
   using (
