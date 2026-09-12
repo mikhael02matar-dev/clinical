@@ -23,6 +23,7 @@
 html, body {
   padding: 0;
   margin: 0;
+  overflow-x: hidden;
 }
 
 body {
@@ -896,7 +897,9 @@ table.activity tr:last-child td { border-bottom: none; }
 .table-wrap {
   border: 1px solid var(--line);
   border-radius: var(--radius);
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
+  max-width: 100%;
 }
 
 table.sessions.nice, table.activity.nice {
@@ -944,15 +947,15 @@ table.activity.nice tbody tr:hover {
 /* ---------- Calendar page ---------- */
 
 .cal-layout {
-  display: flex;
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
   gap: 20px;
-  align-items: flex-start;
-  flex-wrap: wrap;
+  align-items: start;
+  max-width: 100%;
 }
 
 .mini-cal-card {
-  width: 300px;
-  flex-shrink: 0;
+  min-width: 0;
   display: flex;
   flex-direction: column;
 }
@@ -1049,6 +1052,27 @@ table.activity.nice tbody tr:hover {
 
 .booking-form textarea { border-radius: 12px; }
 
+.cal-add-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--blue-tint);
+  color: var(--blue-deep);
+  border: 1px solid var(--line);
+  border-radius: var(--radius-pill);
+  padding: 5px 12px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.cal-add-btn:hover {
+  background: var(--blue);
+  color: #fff;
+  border-color: var(--blue);
+}
+
 /* ============================================================
    Mobile / responsive
    ============================================================ */
@@ -1124,7 +1148,7 @@ table.activity.nice tbody tr:hover {
   .stat-card .stat-value { font-size: 1.8rem; }
 
   .cal-layout {
-    flex-direction: column;
+    grid-template-columns: 1fr;
   }
 
   .mini-cal-card {

@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import MonthCalendar from "@/components/MonthCalendar";
+import AddToCalendarButton from "@/components/AddToCalendarButton";
 
 function formatDate(d) {
   return new Date(d + "T00:00:00").toLocaleDateString(undefined, {
@@ -88,6 +89,7 @@ export default function CalendarView({ sessions }) {
                     <th>Time</th>
                     <th>Patient</th>
                     <th>Notes</th>
+                    <th>Calendar</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -99,6 +101,15 @@ export default function CalendarView({ sessions }) {
                         <Link href={`/dashboard/patients/${s.patient_id}`}>{s.patients?.name}</Link>
                       </td>
                       <td>{s.notes || "—"}</td>
+                      <td>
+                        <AddToCalendarButton
+                          id={s.id}
+                          title={`Session — ${s.patients?.name || "Patient"}`}
+                          dateStr={s.session_date}
+                          timeStr={s.session_time}
+                          description={s.notes || ""}
+                        />
+                      </td>
                     </tr>
                   ))}
                 </tbody>

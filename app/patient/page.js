@@ -1,4 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
+import AddToCalendarButton from "@/components/AddToCalendarButton";
 
 export default async function PatientPortalPage() {
   const supabase = createClient();
@@ -11,6 +12,8 @@ export default async function PatientPortalPage() {
     .select("current_phase, status")
     .eq("id", user.id)
     .single();
+
+  const todayKey = new Date().toISOString().slice(0, 10);
 
   // RLS restricts both queries to rows where patient_id = this patient's own id.
   const { data: sessions } = await supabase
@@ -38,22 +41,40 @@ export default async function PatientPortalPage() {
 
       <h1>Your sessions</h1>
       {sessions && sessions.length > 0 ? (
-        <table className="sessions nice" style={{ marginBottom: 32 }}>
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Time</th>
-            </tr>
-          </thead>
-          <tbody>
-            {sessions.map((s) => (
-              <tr key={s.id}>
-                <td>{s.session_date}</td>
-                <td>{s.session_time}</td>
+        <div className="table-wrap" style={{ marginBottom: 32 }}>
+          <table className="sessions nice">
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Calendar</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {sessions.map((s) => {
+                const isUpcoming = s.session_date >= todayKey;
+                return (
+                  <tr key={s.id}>
+                    <td>{s.session_date}</td>
+                    <td>{s.session_time}</td>
+                    <td>
+                      {isUpcoming ? (
+                        <AddToCalendarButton
+                          id={s.id}
+                          title="Physio session"
+                          dateStr={s.session_date}
+                          timeStr={s.session_time}
+                        />
+                      ) : (
+                        "—"
+                      )}
+                    </td>
+                  </tr>
+                );
+              })}
+            </tbody>
+          </table>
+        </div>
       ) : (
         <div className="empty" style={{ marginBottom: 32 }}>No sessions booked yet.</div>
       )}
