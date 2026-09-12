@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import Link from "next/link";
 import MonthCalendar from "@/components/MonthCalendar";
 import AddToCalendarButton from "@/components/AddToCalendarButton";
+import EmailBookingButton from "@/components/EmailBookingButton";
 
 function formatDate(d) {
   return new Date(d + "T00:00:00").toLocaleDateString(undefined, {
@@ -102,13 +103,22 @@ export default function CalendarView({ sessions }) {
                       </td>
                       <td>{s.notes || "—"}</td>
                       <td>
-                        <AddToCalendarButton
-                          id={s.id}
-                          title={`Session — ${s.patients?.name || "Patient"}`}
-                          dateStr={s.session_date}
-                          timeStr={s.session_time}
-                          description={s.notes || ""}
-                        />
+                        <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                          <AddToCalendarButton
+                            id={s.id}
+                            title={`Session — ${s.patients?.name || "Patient"}`}
+                            dateStr={s.session_date}
+                            timeStr={s.session_time}
+                            description={s.notes || ""}
+                          />
+                          <EmailBookingButton
+                            id={s.id}
+                            title={`Session — ${s.patients?.name || "Patient"}`}
+                            dateStr={s.session_date}
+                            timeStr={s.session_time}
+                            description={s.notes || ""}
+                          />
+                        </div>
                       </td>
                     </tr>
                   ))}

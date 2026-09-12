@@ -20,6 +20,7 @@ export default async function BookPatientSessionPage({ params }) {
       </div>
       <BookSessionForm
         defaultPatientId={params.id}
+        patientName={patient?.name}
         physioId={user.id}
         redirectTo={`/dashboard/patients/${params.id}`}
       />

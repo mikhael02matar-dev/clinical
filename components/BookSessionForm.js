@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 
-export default function BookSessionForm({ patients, defaultPatientId, physioId, redirectTo }) {
+export default function BookSessionForm({ patients, defaultPatientId, patientName, physioId, redirectTo }) {
   const router = useRouter();
   const supabase = createClient();
 
@@ -34,13 +34,35 @@ export default function BookSessionForm({ patients, defaultPatientId, physioId, 
       notes: notes || null,
     });
 
-    setLoading(false);
-
     if (insertError) {
+      setLoading(false);
       setError(insertError.message);
       return;
     }
 
+    // Best-effort: email the booking to whoever is logged in so it can be
+    // saved to their phone's calendar. Booking has already succeeded above,
+    // so a failure here shouldn't block the redirect.
+    const resolvedName = patientName || patients?.find((p) => p.id === patientId)?.name;
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (user?.email) {
+      fetch("/api/send-booking-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          to: user.email,
+          title: resolvedName ? `Session — ${resolvedName}` : "Physio session",
+          dateStr: date,
+          timeStr: time,
+          description: notes || "",
+        }),
+      }).catch(() => {});
+    }
+
+    setLoading(false);
     router.push(redirectTo);
     router.refresh();
   }

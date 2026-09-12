@@ -5,15 +5,10 @@ import { buildICS } from "@/lib/ics";
 export default function AddToCalendarButton({ id, title, dateStr, timeStr, description }) {
   function handleClick() {
     const ics = buildICS({ uid: id, title, dateStr, timeStr, description });
-    const blob = new Blob([ics], { type: "text/calendar;charset=utf-8" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = "session.ics";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    URL.revokeObjectURL(url);
+    const dataUri = "data:text/calendar;charset=utf-8," + encodeURIComponent(ics);
+    // iOS Safari blocks blob-download links, but opens data: URIs for
+    // text/calendar directly into its native "Add to Calendar" preview.
+    window.location.href = dataUri;
   }
 
   return (
@@ -26,3 +21,4 @@ export default function AddToCalendarButton({ id, title, dateStr, timeStr, descr
     </button>
   );
 }
+

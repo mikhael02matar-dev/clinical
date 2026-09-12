@@ -1,5 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import AddToCalendarButton from "@/components/AddToCalendarButton";
+import EmailBookingButton from "@/components/EmailBookingButton";
 
 export default async function PatientPortalPage() {
   const supabase = createClient();
@@ -59,12 +60,15 @@ export default async function PatientPortalPage() {
                     <td>{s.session_time}</td>
                     <td>
                       {isUpcoming ? (
-                        <AddToCalendarButton
-                          id={s.id}
-                          title="Physio session"
-                          dateStr={s.session_date}
-                          timeStr={s.session_time}
-                        />
+                        <div style={{ display: "flex", gap: 6, flexWrap: "wrap" }}>
+                          <AddToCalendarButton
+                            id={s.id}
+                            title="Physio session"
+                            dateStr={s.session_date}
+                            timeStr={s.session_time}
+                          />
+                          <EmailBookingButton id={s.id} title="Physio session" dateStr={s.session_date} timeStr={s.session_time} />
+                        </div>
                       ) : (
                         "—"
                       )}
